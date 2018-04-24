@@ -1,0 +1,23 @@
+services:
+#    oc_blog.example:
+#        class: OC\BlogBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    oc_blog.normalizer.chain:
+        class: OC\BlogBundle\Normalizer\NormalizerChain
+
+    oc_blog.normalizer.resource_validation_exception:
+        class: OC\BlogBundle\Normalizer\NotFoundHttpExceptionNormalizer
+        arguments:
+            - { type: 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException' }
+        tags:
+            - { name: oc_blog.normalizer }
+
+    OC\BlogBundle\EventSubscriber\ExceptionListener:
+        arguments:
+            - '@jms_serializer'
+            - '@oc_blog.normalizer.chain'
+        tags:
+            - { name: kernel.event_subscriber }
+
+#    OC\BlogBundle\EventSubscriber\ExceptionListener: '@oc_blog.exception_subscriber'

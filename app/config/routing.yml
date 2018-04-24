@@ -1,0 +1,5 @@
+oc_blog:
+    resource: "@OCBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
